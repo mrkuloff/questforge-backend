@@ -1,0 +1,29 @@
+services:
+  llama-server:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    container_name: questforge-llama
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./models:/models:ro
+    command: >
+      --model /models/Qwen3-8B-Q4_K_M.gguf
+      --lora /models/lora_adapter_computer_science.gguf
+      --ctx-size 4096
+      --host 0.0.0.0
+      --port 8080
+      --reasoning off
+      --threads 8
+      --threads-batch 8
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: questforge-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - llama-server
+    restart: unless-stopped
