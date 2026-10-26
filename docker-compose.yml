@@ -27,3 +27,15 @@ services:
     depends_on:
       - llama-server
     restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: questforge-frontend
+    ports:
+      - "8081:80"
+    environment:
+      API_HOST: backend
+      API_PORT: "8000"
+    depends_on:
+      - backend
+    restart: unless-stopped
