@@ -36,14 +36,14 @@ body {
    Пока файлов нет — работает паттерн-подложка ниже. */
 #screen-menu, #screen-loading, #screen-error, #screen-finish {
   background-image:
-    url("assets/bg_menu.png"),
+    url("assets/MainMenu.jpg"),
     repeating-linear-gradient(0deg, #101010 0 2px, #000 2px 4px);
   background-size: cover, auto;
   background-position: center, center;
 }
 #screen-game {
   background-image:
-    url("assets/bg_game.png"),
+    url("assets/MainMenu.png"),
     repeating-linear-gradient(0deg, #101010 0 2px, #000 2px 4px);
   background-size: cover, auto;
   background-position: center, center;
