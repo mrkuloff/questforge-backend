@@ -100,6 +100,8 @@ curl http://localhost:8000/health
 
 Swagger UI: http://localhost:8000/docs
 
+Запуск игрового UI (Начало игры): http://localhost:8081/
+
 ## API
 
 | Метод | Путь | Назначение |
