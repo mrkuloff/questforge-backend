@@ -6,11 +6,11 @@ llm:
   max_retries: 3
 
 image:
-  driver: "stub"
-  base_url: ""
-  model: ""
+  driver: "openai_images"
+  base_url: "http://172.19.0.1:9000"
+  model: "flux-klein-questforge"
   token: ""
-  width: 1024
-  height: 576
-  steps: 25
+  width: 384
+  height: 384
+  steps: 12
   timeout_s: 300

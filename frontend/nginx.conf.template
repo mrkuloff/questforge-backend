@@ -4,12 +4,25 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
-    # /api/* -> бэкенд внутри docker-сети (имя сервиса подставляется из env)
+    # УВЕЛИЧИВАЕМ ТАЙМАУТЫ ДЛЯ МЕДЛЕННЫХ ЗАПРОСОВ
+    proxy_connect_timeout 600s;
+    proxy_send_timeout    600s;
+    proxy_read_timeout    600s;
+    send_timeout          600s;
+
     location /api/ {
         proxy_pass http://${API_HOST}:${API_PORT}/;
-        proxy_connect_timeout 10s;
-        proxy_read_timeout    600s;   # генерация квеста долгая
-        proxy_send_timeout    600s;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # ОТКЛЮЧАЕМ БУФЕРИЗАЦИЮ ДЛЯ БОЛЬШИХ ОТВЕТОВ
+        proxy_buffering off;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
     }
 
     location / {

@@ -58,8 +58,13 @@ const Api = {
     }
     if (ct.includes("application/json")) {
       const data = await res.json();
-      const b64 = data.image ?? data.base64 ?? data.b64 ?? data.data ?? null;
-      if (b64) return "data:image/png;base64," + String(b64).trim();
+      // OpenAI-совместимый формат
+      if (Array.isArray(data.data) && data.data[0]?.b64_json) {
+        return "data:image/png;base64," + String(data.data[0].b64_json).trim();
+      }
+      // Фолбэк на другие форматы (включая image_b64)
+      const b64 = data.image ?? data.base64 ?? data.b64 ?? data.image_b64 ?? null;
+      if (typeof b64 === "string") return "data:image/png;base64," + b64.trim();
       if (data.url) return data.url;
       return null;
     }
